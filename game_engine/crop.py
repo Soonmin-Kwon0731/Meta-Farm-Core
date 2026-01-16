@@ -35,17 +35,3 @@ class Corn(Crop):
     def __init__(self, max_growth=10):
         super().__init__("Corn",max_growth)
 
-if __name__ == "__main__":
-    print("=== Crop Class Test ===")
-    
-    potato = Potato()
-    print(potato)
-
-    potato.grow() 
-    potato.grow() 
-    potato.grow() 
-
-    if potato.is_harvestable():
-        print('Success! Ready to harvest ')
-    else:
-        print('Not ready yet...')

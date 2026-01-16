@@ -22,19 +22,3 @@ class Field:
 
 
 
-if __name__ == "__main__":
-    print("===test Field===")
-    p1 = Potato()
-    c1 = Corn()
-    my_farm = Field("myFarm")
-
-    my_farm.plant(p1)
-    my_farm.plant(c1)
-
-    for day in range(3):
-        print(f'\n[Day {day+1}]')
-        my_farm.water_all()
-    
-    my_farm.harvest()
-
-    print(f'\nRemaining crops: {len(my_farm.crops)}')

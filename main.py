@@ -1,62 +1,37 @@
 import sys
-from game_engine import Potato, Corn, Field
-
-def print_menu():
-    print("\n" + "="*40)
-    print("   🚜 Meta-Farm Controller (V1.0)   ")
-    print("="*40)
-    print("1. Plant Potato (Fast Growth) 🥔")
-    print("2. Plant Corn (High Value) 🌽")
-    print("3. Water All Crops 💧")
-    print("4. Harvest Crops 🌾")
-    print("5. Check Farm Status 👀")
-    print("9. Exit Game ❌")
-    print("="*40)
+from game_engine import Field, Store, ui, run_farming_mode, run_shop_mode
 
 def main():
-    # Initialize Field
-    my_farm = Field("My Weekend Farm")
-    
-    # Game Loop
-    while True:
-        print_menu()
-        choice = input("Select an option (Input number): ")
+    my_farm = Field("Weekend Farm")
+    my_store = Store(start_money=100)
+    my_inventory = [] 
+    my_store.inventory = my_inventory 
+    days = 1 
 
-        if choice == '1':
-            # Dynamic Instantiation: Create a new Potato object
-            new_crop = Potato() 
-            my_farm.plant(new_crop)
-            
-        elif choice == '2':
-            # Create a new Corn object
-            new_crop = Corn()
-            my_farm.plant(new_crop)
-            
-        elif choice == '3':
-            # Grow all crops
-            my_farm.water_all()
-            
-        elif choice == '4':
-            # Try to harvest
-            my_farm.harvest()
-            
-        elif choice == '5':
-            # Show status
-            count = len(my_farm.crops)
-            print(f"\n[System] You have {count} crops in the field.")
-            
-            # (Optional) Show details of each crop
-            if count > 0:
-                print("--- Crop List ---")
-                for c in my_farm.crops:
-                    print(c) 
+    while True:
+        # 1. 메인 메뉴 보여주기
+        ui.show_main_menu(days, my_store.money)
+        choice = input("Select Main Option: ")
+
+        if choice == '1': # 상태 확인
+            ui.show_status(my_farm, my_store)
+            input("Press Enter to continue...") # 바로 넘어가지 않게 잠시 멈춤
+
+        elif choice == '2': # 상점 모드로 이동
+            # 상점 모드 함수를 실행 (갔다가 돌아옴)
+            # 여기서는 인벤토리 판매 로직을 따로 구현해야 합니다.
+            run_shop_mode(my_farm, my_store,my_inventory)
+
+        elif choice == '3': # 농사 모드로 이동
+            run_farming_mode(my_farm, my_inventory)
+            days += 1 # 농사짓고 나오면 하루가 지남 (선택사항)
 
         elif choice == '9':
-            print("\nExiting Meta-Farm... See you next time! 👋")
-            sys.exit() # Terminate program
-            
+            ui.show_message("See you next time!")
+            sys.exit()
+
         else:
-            print("\n[Error] Invalid input. Please try again.")
+            ui.show_message("Wrong input.")
 
 if __name__ == "__main__":
     main()
