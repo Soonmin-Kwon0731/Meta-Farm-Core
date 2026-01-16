@@ -1,34 +1,51 @@
 class Crop:
-    def __init__(self, name, max_growth = 3):
+    def __init__(self, name, max_growth=3):
         self.name = name
-        self.growth_step = 0
+        self.growth_step = 0 
         self.max_growth = max_growth
 
     def grow(self):
         if self.growth_step < self.max_growth:
             self.growth_step += 1
-            print(f' 현재 성장치 : {self.growth_step}')
+            print(f' {self.name} is growing! [Current: {self.growth_step}/{self.max_growth}]')
+        else:
+            print(f' {self.name} is fully grown!')
 
     def is_harvestable(self):
-        if self.growth_step == self.max_growth:
-            return True
-        else:
-            return False
+        return self.growth_step >= self.max_growth
         
     def __str__(self):
         return f'[{self.name} | {self.growth_step}/{self.max_growth}]'
     
+class Potato(Crop):
+    def __init__(self, max_growth=5):
+        super().__init__("Potato",max_growth)
+    
+    def grow(self):
+        if self.growth_step < self.max_growth:
+            self.growth_step += 2
 
+            if self.growth_step >= self.max_growth:
+                self.growth_step = self.max_growth
+                print(f' {self.name} is fully grown![Current: {self.growth_step}/{self.max_growth}]') 
+            else:
+                print(f' {self.name} is growing! [Current: {self.growth_step}/{self.max_growth}]')
+
+class Corn(Crop):
+    def __init__(self, max_growth=10):
+        super().__init__("Corn",max_growth)
 
 if __name__ == "__main__":
-    print("=== Crop class test ===")
-    my_crop = Crop('테스트 콩',2)
-    print(my_crop)
+    print("=== Crop Class Test ===")
+    
+    potato = Potato()
+    print(potato)
 
-    my_crop.grow()
-    my_crop.grow()
+    potato.grow() 
+    potato.grow() 
+    potato.grow() 
 
-    if my_crop.is_harvestable():
-        print('테스트 성공! 수확 가능합니다')
+    if potato.is_harvestable():
+        print('Success! Ready to harvest ')
     else:
-        print('테스트 실패... 아직 안자랐습니다.')
+        print('Not ready yet...')
